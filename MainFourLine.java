@@ -1,6 +1,7 @@
 package FourLine;
 
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainFourLine {
@@ -20,20 +21,30 @@ public class MainFourLine {
             mostrarTablero();
             if(turno){
                 do {
-                    System.out.println("Jugador 1 - Escoga una fila");
-                    col = sc.nextInt();
-                    if(!validColumn(col)){
-                        System.out.println("Columna no valida, escoja otra por favor");
+                    try {
+                        System.out.println("Jugador 1 - Escoga una fila");
+                        col = sc.nextInt();
+                        if (!(col > 0 && col < 8) || !validColumn(col)) {
+                            System.out.println("Columna no valida, escoja otra por favor");
+                        }
+                    }catch (InputMismatchException e){
+                        System.out.println("Introduzca un numero del 1 al 7!!");
+                        sc.nextLine();
                     }
-                }while(!validColumn(col));
+                }while(!(col > 0 && col < 8) || !validColumn(col));
             }else{
                 do {
-                    System.out.println("Jugador 2 - Escoga una fila");
-                    col = sc.nextInt();
-                    if(!validColumn(col)){
-                        System.out.println("Columna no valida, escoja otra por favor");
+                    try{
+                        System.out.println("Jugador 2 - Escoga una fila");
+                        col = sc.nextInt();
+                        if(!(col > 0 && col < 8) || !validColumn(col)){
+                            System.out.println("Columna no valida, escoja otra por favor");
+                        }
+                    }catch (InputMismatchException e){
+                        System.out.println("Introduzca un numero del 1 al 7!!");
+                        sc.nextLine();
                     }
-                }while(!validColumn(col));
+                }while(!(col > 0 && col < 8) || !validColumn(col));
             }
             addFicha((turno ? "X" : "O"), col);
 
@@ -70,7 +81,7 @@ public class MainFourLine {
     }
 
     public static boolean validColumn(int col){
-        for (int i = tablero.length-1; i > 0; i--) {
+        for (int i = tablero.length-1; i >= 0; i--) {
             if(tablero[i][col-1].equals(".")){
                 return true;
             }
@@ -79,7 +90,7 @@ public class MainFourLine {
     }
 
     public static void addFicha(String player, int col){
-        for (int i = tablero.length-1; i > 0; i--) {
+        for (int i = tablero.length-1; i >= 0; i--) {
             if(tablero[i][col-1].equals(".")){
                 tablero[i][col-1] = player;
                 return;
